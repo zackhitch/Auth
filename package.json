@@ -1,0 +1,17 @@
+{
+  "name": "Auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/zackhitch/Auth.git",
+  "author": "zackhitch <zmhitchcock+git@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
