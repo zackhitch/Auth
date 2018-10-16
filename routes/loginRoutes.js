@@ -10,6 +10,7 @@ router.post('/', (req, res) => {
   db.loginUser(creds)
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
+        req.session.username = user.username;
         res.status(200).json({ message: `Welcome ${user.username}` });
       } else {
         res.status(401).json({ message: `YOU SHALL NOT PASS!!!` });
