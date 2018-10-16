@@ -10,6 +10,7 @@ const registerRoutes = require('./routes/registerRoutes.js');
 const loginRoutes = require('./routes/loginRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const logoutRoute = require('./routes/logoutRoute.js');
+const restrictedRoutes = require('./routes/restrictedRoutes.js');
 
 const server = express();
 
@@ -32,14 +33,30 @@ const sessionConfig = {
   }),
 };
 
+// MIDDLEWARE
+const restricted = (req, res, next) => {
+  const path = req.path;
+  if (path.includes('/api/restricted')) {
+    if (req.session && req.session.username) {
+      next();
+    } else {
+      res.status(401).json({ message: `You are not authorized.` });
+    }
+  } else {
+    next();
+  }
+};
+
 server.use(session(sessionConfig));
 
 server.use(helmet(), express.json());
+server.use(restricted);
 
 server.use('/register', registerRoutes);
 server.use('/login', loginRoutes);
 server.use('/api/users', userRoutes);
 server.use('/logout', logoutRoute);
+server.use('/api/restricted', restrictedRoutes);
 
 server.listen(port, () =>
   console.log(`\n=== API running on port: ${port} ===\n`)
